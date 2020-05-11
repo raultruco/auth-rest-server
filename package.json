@@ -1,0 +1,70 @@
+{
+  "name": "authentication-service",
+  "version": "1.0.0",
+  "description": "An authentication microservice using node.js, express and mongodb",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "raultruco@gmail.com",
+  "license": "GPL-3.0",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=10.20.0",
+    "yarn": ">=1.21.0"
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.js --exec \"babel-node -r dotenv/config\"",
+    "devlint": "nodemon src/index.js --exec babel-node \"node -r dotenv/config\" | yarn run lint",
+    "clean": "rimraf dist",
+    "build": "yarn run clean && mkdir -p dist && babel src -s -D -d dist",
+    "test:watch": "jest --watch --setupFiles dotenv/config",
+    "test": "jest --setupFiles dotenv/config",
+    "lint": "esw -w src test"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.7",
+    "mongoose": "^5.9.12",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/preset-env": "^7.9.6",
+    "@shelf/jest-mongodb": "^1.1.5",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^23.4.2",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.9.0",
+    "eslint-watch": "^6.0.1",
+    "jest": "^25.5.4",
+    "nodemon": "^2.0.3",
+    "rimraf": "^3.0.2",
+    "supertest": "^4.0.2"
+  },
+  "nodemonConfig": {
+    "verbose": false,
+    "ignore": [
+      "node_modules"
+    ],
+    "ext": ".js,.json"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "directories": {
+    "test": "test"
+  }
+}

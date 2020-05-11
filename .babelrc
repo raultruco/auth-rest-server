@@ -1,0 +1,31 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "node": "current"
+                }
+            }
+        ]
+    ],
+    "plugins": [
+        "@babel/plugin-proposal-object-rest-spread",
+        "@babel/plugin-proposal-class-properties",
+        [
+            "module-resolver",
+            {
+                "root": [
+                    "./src"
+                ],
+                "alias": {
+                    "services": "./src/services",
+                    "models": "./src/models",
+                    "middlewares": "./src/middlewares",
+                    "routes": "./src/routes",
+                    "controllers": "./src/controllers"
+                }
+            }
+        ]
+    ]
+}
