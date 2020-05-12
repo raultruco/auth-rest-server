@@ -22,13 +22,13 @@ routes.post(
     async (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() })
+            return res.status(422).send({ message: 'Bad input parameters', errors: errors.array() })
         }
         try {
             const member = await authController.signUp(req.body);
-            return res.status(200).send({ member });
+            return res.status(200).send(member);
         } catch (err) {
-            return res.status(err.status || 400).send({ error: err });
+            return res.status(err.status || 400).send(err);
         }
 });
 
@@ -41,13 +41,13 @@ routes.post(
     async (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() })
+            return res.status(422).send({ message: 'Bad input parameters', errors: errors.array() })
         }
         try {
             const member = await authController.login(req.body);
-            return res.status(200).send({ member });
+            return res.status(200).send(member);
         } catch (err) {
-            return res.status(err.status || 400).send({ error: err });
+            return res.status(err.status || 400).send(err);
         }
 });
 
