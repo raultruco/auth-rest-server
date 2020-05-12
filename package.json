@@ -20,7 +20,7 @@
     "clean": "rimraf dist",
     "build": "yarn run clean && mkdir -p dist && babel src -s -D -d dist",
     "test:watch": "jest --watch --setupFiles dotenv/config",
-    "test": "jest --setupFiles dotenv/config",
+    "test": "jest --detectOpenHandles --setupFiles dotenv/config",
     "lint": "esw -w src test"
   },
   "dependencies": {
