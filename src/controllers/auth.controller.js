@@ -1,5 +1,6 @@
 import config from 'config';
 import { Member } from 'models';
+import ServerError from 'utils/ServerError';
 import jwt from 'jsonwebtoken';
 
 export default {
@@ -14,7 +15,7 @@ export default {
             return member;
         } catch (err) {
             console.error(err);
-            throw new Error({ message: 'Error saving member', status: 400 });
+            throw new ServerError({ message: 'Error saving member', status: 400 });
         }
     },
 
@@ -24,11 +25,11 @@ export default {
             registeredMember = await Member.findByCredentials({ email, password });
         } catch (err) {
             console.error(err);
-            throw new Error({ message: 'Error retrieving member', status: 400 });
+            throw new ServerError({ message: 'Error retrieving member', status: 400 });
         }
 
         if (!registeredMember || !registeredMember.email) {
-            throw new Error({ message: 'Member not found', status: 404 });
+            throw new ServerError({ message: 'Member not found', status: 404 });
         }
 
         try {
@@ -52,7 +53,7 @@ export default {
             };
         } catch (err) {
             console.error(err);
-            throw new Error({ message: 'Error signing token', status: 500 });
+            throw new ServerError({ message: 'Error signing token', status: 500 });
         }
     }
 }
