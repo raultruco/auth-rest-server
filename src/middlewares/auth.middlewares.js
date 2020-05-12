@@ -30,7 +30,7 @@ export const verifyToken = (req, res, next) => {
     });
 };
 
-export const checkDuplicatedUser = (req, res, next) => {
+export const checkExistingMember = (req, res, next) => {
     return Member.findOne({ email: req.body.email })
         .then((member) => {
             if (member) {

@@ -6,12 +6,12 @@
 // - It doesn't say you anything that the member is already registered??
 
 import { Router } from 'express';
-import { checkDuplicatedUser } from 'middlewares/auth.middlewares.js';
+import { checkExistingMember } from 'middlewares/auth.middlewares.js';
 import authController from 'controllers/auth.controller.js';
 
 const routes = Router();
 
-routes.post('/auth/signup', [checkDuplicatedUser], async (req, res) => {
+routes.post('/auth/signup', [checkExistingMember], async (req, res) => {
   try {
     const member = await authController.signUp(req.body);
     return res.status(200).send({ member });
