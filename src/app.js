@@ -32,7 +32,8 @@ app.use('/api0', [
   // passport.initialize(),
   // Framework.Controllers.auth.authenticateApi,
   routes.status,
-  routes.auth
+  routes.auth,
+  routes.members,
   ]);
 
 // Web UI routes
