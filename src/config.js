@@ -6,5 +6,7 @@ export default {
     mongoDatabase: process.env.MONGO_DATABASE,
     mongoUsername: process.env.MONGO_USERNAME,
     mongoPassword: process.env.MONGO_PASSWORD,
+    saltLength: process.env.SALT_LENGTH ? parseInt(process.env.SALT_LENGTH) : 10,
     jwtSecret: process.env.JWT_SECRET || '0123456789',
+    jwtExpires: process.env.JWT_EXPIRES || 86400,   // 86400 = 24 hours
   };

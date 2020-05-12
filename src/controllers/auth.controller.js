@@ -1,7 +1,6 @@
 import config from 'config';
 import { Member } from 'models';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 
 export default {
     signUp: async ({ email, password }) => {
@@ -14,53 +13,41 @@ export default {
             await member.save();
             return member;
         } catch (err) {
-            console.log(err);
+            console.error(err);
             throw new Error({ message: 'Error saving member', status: 400 });
         }
     },
 
     login: async ({ email, password }) => {
-        let memberFound;
+        let registeredMember;
         try {
-            memberFound = await Member.findOne({ email }).exec();
+            registeredMember = await Member.findByCredentials({ email, password });
         } catch (err) {
             console.error(err);
             throw new Error({ message: 'Error retrieving member', status: 400 });
         }
 
-        if (!memberFound) {
+        if (!registeredMember || !registeredMember.email) {
             throw new Error({ message: 'Member not found', status: 404 });
-        }
-
-        let passwordMatches;
-        try {
-            passwordMatches = await bcrypt.compare(password, memberFound.password);
-        } catch (err) {
-            console.error(err);
-            throw new Error({ message: 'Error retrieving member', status: 500 });
-        }
-
-        if (!passwordMatches) {
-            throw new Error({ message: 'Unauthorised', status: 400 });
         }
 
         try {
             const token = await jwt.sign({
-                id: memberFound._id,
-                fn: memberFound.fullName,
-                ia: memberFound.isAdmin,
-                av: memberFound.avatarUrl,
+                id: registeredMember._id,
+                fn: registeredMember.fullName,
+                ia: registeredMember.isAdmin,
+                av: registeredMember.avatarUrl,
             },
                 config.jwtSecret, {
-                expiresIn: 86400 // 24 hours
+                expiresIn: config.jwtExpires // 24 hours
             }
             );
 
             return {
-                id: memberFound._id,
-                fullName: memberFound.fullName,
-                isAdmin: memberFound.isAdmin,
-                avatarUrl: memberFound.avatarUrl,
+                id: registeredMember._id,
+                fullName: registeredMember.fullName,
+                isAdmin: registeredMember.isAdmin,
+                avatarUrl: registeredMember.avatarUrl,
                 accessToken: token
             };
         } catch (err) {

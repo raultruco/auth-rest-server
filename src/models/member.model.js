@@ -1,5 +1,6 @@
 import { default as mongoose, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import config from 'config';
 
 const memberSchema = new Schema({
     email: {
@@ -21,18 +22,27 @@ const memberSchema = new Schema({
     updated: { type: Date, default: Date.now },
 });
 
-// Hashing a password before saving it to the database
-memberSchema.pre('save', function (next) {
-    let member = this;
-    const salt = bcrypt.genSaltSync(10);
-    bcrypt.hash(member.password, salt, function (err, hash) {
-        if (err) {
-            return next(err);
-        }
-        member.password = hash;
-        next();
-    });
+// Hash passwords before saving it to the database
+memberSchema.pre('save', async function () {
+    const member = this;
+    if (member.isModified('password')) {
+        const salt = bcrypt.genSaltSync(config.saltLength);
+        member.password = await bcrypt.hash(member.password, salt);
+    }
 });
+
+// Find by email and (hashed) password
+memberSchema.statics.findByCredentials = async ({ email, password }) => {
+    const member = await Member.findOne({ email });
+    if (!member) {
+        throw new Error({ message: `Member ${email} not found` });
+    }
+    const isPasswordMatch = await bcrypt.compare(password, member.password);
+    if (!isPasswordMatch) {
+        throw new Error({ message: 'Password mismatch for member ${email}' });
+    }
+    return member;
+}
 
 const Member = mongoose.model('Member', memberSchema);
 export default Member;
