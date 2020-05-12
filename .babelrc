@@ -23,7 +23,8 @@
                     "models": "./src/models",
                     "middlewares": "./src/middlewares",
                     "routes": "./src/routes",
-                    "controllers": "./src/controllers"
+                    "controllers": "./src/controllers",
+                    "utils": "./src/utils"
                 }
             }
         ]
