@@ -11,15 +11,16 @@ const memberSchema = new Schema({
         trim: true,
     },
     password: { type: String, required: true },
-    full_name: String,
-    is_admin: { type: Boolean, default: false },
+    fullName: String,
+    isAdmin: { type: Boolean, default: false },
     sex: { type: Number, default: 2 },
-    born_date: { type: Date, required: false },
+    bornDate: { type: Date, required: false },
     phone: String,
-    avatar_url: String,
+    avatarUrl: String,
     country: String,
-    city: String,
-    updated: { type: Date, default: Date.now },
+    city: String
+}, {
+    timestamps: true
 });
 
 // Hash passwords before saving it to the database
