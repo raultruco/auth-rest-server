@@ -6,27 +6,49 @@
 // - It doesn't say you anything that the member is already registered??
 
 import { Router } from 'express';
+const { check, validationResult } = require('express-validator')
 import { checkExistingMember } from 'middlewares/auth.middlewares.js';
 import authController from 'controllers/auth.controller.js';
 
 const routes = Router();
 
-routes.post('/auth/signup', [checkExistingMember], async (req, res) => {
-  try {
-    const member = await authController.signUp(req.body);
-    return res.status(200).send({ member });
-  } catch (err) {
-    return res.status(err.status || 400).send({ error: err });
-  }
+routes.post(
+    '/auth/signup',
+    [
+        checkExistingMember,
+        check('email').isEmail(),
+        check('password').isLength({ min: 5 })
+    ], 
+    async (req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() })
+        }
+        try {
+            const member = await authController.signUp(req.body);
+            return res.status(200).send({ member });
+        } catch (err) {
+            return res.status(err.status || 400).send({ error: err });
+        }
 });
 
-routes.post('/auth/login', async (req, res) => {
-  try {
-    const member = await authController.login(req.body);
-    return res.status(200).send({ member });
-  } catch (err) {
-    return res.status(err.status || 400).send({ error: err });
-  }
+routes.post(
+    '/auth/login',
+    [
+        check('email').isEmail(),
+        check('password').isLength({ min: 5 })
+    ],
+    async (req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() })
+        }
+        try {
+            const member = await authController.login(req.body);
+            return res.status(200).send({ member });
+        } catch (err) {
+            return res.status(err.status || 400).send({ error: err });
+        }
 });
 
 export default routes;
