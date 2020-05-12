@@ -36,11 +36,11 @@ memberSchema.pre('save', async function () {
 memberSchema.statics.findByCredentials = async ({ email, password }) => {
     const member = await Member.findOne({ email });
     if (!member) {
-        throw new Error({ message: `Member ${email} not found` });
+        throw new Error(`Member ${email} not found` );
     }
     const isPasswordMatch = await bcrypt.compare(password, member.password);
     if (!isPasswordMatch) {
-        throw new Error({ message: 'Password mismatch for member ${email}' });
+        throw new Error(`Password mismatch for member ${email}`);
     }
     return member;
 }
