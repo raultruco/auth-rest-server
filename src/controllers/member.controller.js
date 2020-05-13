@@ -1,5 +1,6 @@
 import { Member } from 'models';
 import ServerError from 'utils/ServerError';
+import config from '../config';
 
 export default {
     create: async (data) => {
@@ -52,9 +53,18 @@ export default {
         }
     },
 
-    findAll: async () => {
+    findAll: async (paginationSorting = {}) => {
+        const {
+            limit = config.pageLimit,
+            skip = 0,
+            sortBy = '_id',
+            sortDir = 1
+        } = paginationSorting;
         try {
-            return await Member.find();
+            return await Member.find()
+                .sort({ [sortBy]: sortDir })
+                .skip(skip)
+                .limit(limit);
         } catch (err) {
             console.error(err);
             throw new ServerError({ message: 'Error retrieving members', status: 400 });

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import memberController from 'controllers/member.controller.js';
 import { verifyToken } from 'middlewares/auth.middlewares.js';
-
+import { processPaginationSorting } from 'middlewares/querystring.middleware.js';
 const routes = Router();
 
 routes.get(
@@ -34,10 +34,10 @@ routes.get(
 
 routes.get(
     '/members',
-    [ verifyToken ],
+    [ verifyToken, processPaginationSorting ],
     async (req, res) => {
         try {
-            return res.status(200).send(await memberController.findAll());
+            return res.status(200).send(await memberController.findAll(req.paginationSorting));
         } catch (err) {
             console.error('err: ', err);
             return res.status(err.status || 400).send(err);

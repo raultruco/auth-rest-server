@@ -7,7 +7,9 @@ const connectDb = () => {
     return mongoose.connect(
         `mongodb://${config.mongoServer}:${config.mongoPort}/${config.mongoDatabase}`, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true
     });
   };
 
