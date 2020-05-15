@@ -45,12 +45,8 @@ memberSchema.statics.findByCredentials = async ({ email, password }) => {
     return member;
 }
 
-memberSchema.method('toJSON', function() {
-    // eslint-disable-next-line no-unused-vars
-    const { __v, _id, ...object } = this.toObject();
-    object.id = _id;
-    return object;
-});
+// Never serialise (and return) the password field
+mongoose.set('toJSON', { transform: (doc, converted) => { delete converted.password; } });
 
 const Member = mongoose.model('Member', memberSchema);
 export default Member;
