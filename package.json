@@ -4,9 +4,14 @@
   "description": "An authentication microservice using node.js, express and mongodb",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/raultruco/authentication-service"
   },
-  "author": "raultruco@gmail.com",
+  "homepage": "https://github.com/raultruco/authentication-service",
+  "bugs": {
+    "url": "https://github.com/raultruco/authentication-service/issues",
+    "email": "raultruco@gmail.com"
+  },
+  "author": "Raul Truco <raultruco@gmail.com>",
   "license": "GPL-3.0",
   "main": "dist/index.js",
   "engines": {
@@ -57,15 +62,13 @@
   "nodemonConfig": {
     "verbose": false,
     "ignore": [
-      "node_modules"
+      "node_modules",
+      ".git"
     ],
     "ext": ".js,.json"
   },
-  "bugs": {
-    "url": ""
-  },
-  "homepage": "",
   "directories": {
-    "test": "test"
+    "src": "./src",
+    "test": "./test"
   }
 }
