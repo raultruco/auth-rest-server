@@ -57,7 +57,10 @@
     "jest": "^25.5.4",
     "nodemon": "^2.0.3",
     "rimraf": "^3.0.2",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "mongoose-to-swagger": "^1.0.3",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4"
   },
   "nodemonConfig": {
     "verbose": false,
