@@ -3,8 +3,11 @@ import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import swaggerUI from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 import * as routes from './routes';
 import config from './config.js';
+import swaggerOptions from './swaggerOptions.js';
 
 const app = express();
 app.disable('x-powered-by');
@@ -36,13 +39,8 @@ app.use('/api0', [
   routes.members,
   ]);
 
-// Web UI routes
-// app.use('/', [
-//   express.static(path.join(__dirname, '/public')),
-//   // favicon(__dirname + '/public/assets/images/favicon.ico'),
-//   // Framework.Controllers.auth.authenticateWeb,
-//   staticRoutes
-//   ]);
+// Swagger docs
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerOptions)));
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
