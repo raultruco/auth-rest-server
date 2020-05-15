@@ -36,8 +36,8 @@ export default {
             const token = await jwt.sign({
                 id: registeredMember._id,
                 fn: registeredMember.fullName,
-                ia: registeredMember.isAdmin,
                 av: registeredMember.avatarUrl,
+                ia: registeredMember.isAdmin
             },
                 config.jwtSecret, {
                 expiresIn: config.jwtExpires // 24 hours
@@ -47,8 +47,8 @@ export default {
             return {
                 id: registeredMember._id,
                 fullName: registeredMember.fullName,
-                isAdmin: registeredMember.isAdmin,
                 avatarUrl: registeredMember.avatarUrl,
+                isAdmin: registeredMember.isAdmin,
                 accessToken: token
             };
         } catch (err) {
