@@ -12,6 +12,44 @@ import authController from 'controllers/auth.controller.js';
 
 const routes = Router();
 
+/**
+ * 
+ * @swagger
+ * /auth/signup:
+ *   post:
+ *     description: Sign up a new member
+ *     tags: ['Authentication']
+ *     produces:
+ *       - application/json
+ *     requestBody:
+ *       description: member data
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 required: true
+ *               password:
+ *                 type: string
+ *                 required: true
+ *               fullName:
+ *                 type: string
+ *                 required: true
+ *     security: []
+ *     responses:
+ *       200:
+ *         description: Ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Member'
+ *       4xx:
+ *         description: Client error
+ *       5xx:
+ *         description: Server Error 
+ */
 routes.post(
     '/auth/signup',
     [
@@ -32,6 +70,57 @@ routes.post(
         }
 });
 
+/**
+ * @swagger
+ * 
+ * /auth/login:
+ *   post:
+ *     description: Login a member supplying his credentials
+ *     tags: ['Authentication']
+ *     produces:
+ *       - application/json
+ *     requestBody:
+ *       description: member data
+ *       content:
+ *         'application/json':
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 required: true
+ *               password:
+ *                 type: string
+ *                 required: true
+ *     security: []
+ *     responses:
+ *       200:
+ *         description: Ok 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: member id
+ *                 fullName:
+ *                   type: string
+ *                   description: member full name
+ *                 isAdmin:
+ *                   type: boolean
+ *                   description: member is an admin
+ *                 avatarUrl:
+ *                   type: string
+ *                   description: member avatar url
+ *                 accessToken:
+ *                   type: string
+ *                   description: authentication access token
+ *       4xx:
+ *         description: Client error
+ *       5xx:
+ *         description: Server Error 
+ */
 routes.post(
     '/auth/login',
     [

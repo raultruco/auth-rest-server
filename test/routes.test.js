@@ -243,7 +243,7 @@ describe('routes', () => {
         });
         it('should delete all the members', async () => {
             await request(app)
-                .del('/api0/members')
+                .del('/api0/members/all')
                 .set('Accept', 'application/json')
                 .set('Authorization', accessToken)
                 .expect('Content-Type', /json/)
