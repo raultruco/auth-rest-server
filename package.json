@@ -13,17 +13,17 @@
   },
   "author": "Raul Truco <raultruco@gmail.com>",
   "license": "GPL-3.0",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "engines": {
     "node": ">=10.20.0",
     "yarn": ">=1.21.0"
   },
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node build/index.js",
     "dev": "nodemon src/index.js --exec \"babel-node -r dotenv/config\"",
     "devlint": "nodemon src/index.js --exec babel-node \"node -r dotenv/config\" | yarn run lint",
-    "clean": "rimraf dist",
-    "build": "yarn run clean && mkdir -p dist && babel src -s -D -d dist",
+    "clean": "rm -rf build",
+    "build": "yarn run clean && mkdir -p build && babel src -s -D -d build",
     "test:watch": "jest --watch --setupFiles dotenv/config",
     "test": "jest --detectOpenHandles --setupFiles dotenv/config",
     "lint": "esw -w src test"
@@ -36,7 +36,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.12",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "mongoose-to-swagger": "^1.0.3",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -57,10 +60,7 @@
     "jest": "^25.5.4",
     "nodemon": "^2.0.3",
     "rimraf": "^3.0.2",
-    "supertest": "^4.0.2",
-    "mongoose-to-swagger": "^1.0.3",
-    "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4"
+    "supertest": "^4.0.2"
   },
   "nodemonConfig": {
     "verbose": false,

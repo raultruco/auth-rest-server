@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -18,17 +17,12 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// View engine setup
-app.set('views', path.join(__dirname, '../views'));
-app.set('view engine', 'pug');
-
 // Logger
 app.use(logger('dev', {
   skip: () => app.get('env') === 'test'
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, '../public')));
 
 // API Routes
 app.use('/api0', [
@@ -40,7 +34,8 @@ app.use('/api0', [
   ]);
 
 // Swagger docs
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerOptions)));
+app.use('/', swaggerUI.serve);
+app.get('/', swaggerUI.setup(swaggerJsDoc(swaggerOptions)));
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -57,6 +52,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
         error: {
           status: err.status,
           message: err.message,
+          err: app.get('env') === 'development' ? err.err : null
         }
       });
 });

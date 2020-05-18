@@ -60,7 +60,7 @@ export default {
         servers: [
             {
                 description: 'Local server',
-                url: `${config.host}:${config.port}/api0`
+                url: `http://${config.host}:${config.port}/api0`
             }
         ],
         tags: [

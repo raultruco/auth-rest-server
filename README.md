@@ -78,7 +78,7 @@ yarn run build
 npm run build
 ```
 
-will compile your `src` into `/dist`, and 
+will compile your `src` into `/build`, and 
 
 ```sh
 # yarn
@@ -88,7 +88,7 @@ yarn start
 npm start
 ```
 
-will run `build` (via the `prestart` hook) and start the compiled application from the `/dist` folder.
+will run `build` (via the `prestart` hook) and start the compiled application from the `/build` folder.
 
 The last command is generally what most hosting providers use to start your application when deployed, so it should take care of everything.
 
