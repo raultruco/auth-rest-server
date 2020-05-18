@@ -34,12 +34,13 @@ export const checkExistingMember = (req, res, next) => {
     return Member.findOne({ email: req.body.email })
         .then((member) => {
             if (member) {
-                next({ status: 500, message: 'Member already exists!' });
+                next({ status: 400, message: 'Member already exists!' });
             } else {
                 next();
             }
         })
         .catch((err) => {
-            next({ status: 500, message: 'Member already exists!', err });
+            console.error('checkExistingMember middleware: ', err);
+            next({ status: 500, message: 'Error checking whether member exists or not', err });
         });
 };

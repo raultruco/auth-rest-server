@@ -1,24 +1,30 @@
-FROM node:12-alpine
-ENV NPM_CONFIG_LOGLEVEL warn
-WORKDIR /authentication-server
+# Build image
+# docker build -t authentication-server .
+# Run container
+# docker run --init --rm --publish 8080:8080 authentication-server
 
-# COPY ./docker/entrypoint.sh /entrypoint/
-# RUN ["chmod", "+x", "entrypoint/entrypoint.sh"]
+# builder stage
+FROM node:lts-alpine AS builder
+WORKDIR /app
+# Install dependencies && build
+COPY . .
+RUN yarn install --frozen-lockfile && yarn run build
+# Remove dev dependencies and sources
+RUN if [ "$NODE_ENV" = "prod" ] ; then rm -rf ./src && rm -f .babelrc ; fi
 
-COPY package*.json yarn.lock ./
-RUN yarn install --pure-lockfile
+# runtime stage
+FROM node:lts-alpine
 
-COPY ./src ./src
-COPY .babelrc ./
+USER node
 
-# Remove dev dependencies
-# RUN yarn remove $(cat package.json | jq -r '.devDependencies | keys | join(" ")')
+RUN mkdir /home/node/authentication-server
+WORKDIR /home/node/authentication-server
+
+COPY --from=builder --chown=node:node /app/build /home/node/authentication-server/build
+COPY --from=builder --chown=node:node /app/node_modules /home/node/authentication-server/node_modules
 
 EXPOSE 8081
 
 # ENTRYPOINT ["/entrypoint/entrypoint.sh"]
-
-# Lint and build app sources
-RUN yarn run build
 
 CMD [ "yarn", "run", "start" ]

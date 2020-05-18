@@ -1,0 +1,8 @@
+.vscode/
+.git/
+node_modules/
+test/
+docker/
+.db/
+build/
+
