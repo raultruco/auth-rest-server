@@ -1,4 +1,4 @@
-import config from '../config.js';
+import config from 'config.js';
 import mongoose from 'mongoose'
 
 // Configure Mongoose
@@ -20,7 +20,10 @@ const connectDb = () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
-        useCreateIndex: true
+        useCreateIndex: true,
+        user: config.mongoUsername,
+        pass: config.mongoPassword,
+        authSource: 'admin'
     });
   };
 
