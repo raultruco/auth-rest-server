@@ -5,7 +5,7 @@
 
 # builder stage
 FROM node:lts-alpine AS builder
-WORKDIR /app
+WORKDIR /source
 # Install dependencies && build
 COPY . .
 RUN yarn install --frozen-lockfile && yarn run build
@@ -20,11 +20,12 @@ USER node
 RUN mkdir /home/node/authentication-server
 WORKDIR /home/node/authentication-server
 
-COPY --from=builder --chown=node:node /app/build /home/node/authentication-server/build
-COPY --from=builder --chown=node:node /app/node_modules /home/node/authentication-server/node_modules
+COPY --from=builder --chown=node:node /source/package.json /home/node/authentication-server/
+COPY --from=builder --chown=node:node /source/build /home/node/authentication-server/build
+COPY --from=builder --chown=node:node /source/node_modules /home/node/authentication-server/node_modules
 
 EXPOSE 8081
 
 # ENTRYPOINT ["/entrypoint/entrypoint.sh"]
 
-CMD [ "yarn", "run", "start" ]
+CMD [ "node", "build/index.js" ]
